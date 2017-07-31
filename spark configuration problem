@@ -1,0 +1,18 @@
+## problem 1
+……
+Caused by: org.apache.hadoop.ipc.RemoteException: Cannot create directory /tmp/hive. Name node is in safe mode.
+……
+<console>:14: error: not found: value spark
+       import spark.implicits._
+              ^
+<console>:14: error: not found: value spark
+       import spark.sql
+
+solution：Use "hdfs dfsadmin -safemode leave" to turn safe mode off.
+
+
+## problem 2
+under hadoop context, after executing command 'jps', there is no showing of 'datanode'.
+by debugging the datanode logs, it's because of the differentiate of datanode clusterID and namenode clusterID which should be identical.
+solution: delete 'current' directory under both the datanode and namenode. Then reformat the namenode by executing command 'hdfs namenode -format',
+		then 'sbin/start-dfs.sh' to restart hdfs system.
